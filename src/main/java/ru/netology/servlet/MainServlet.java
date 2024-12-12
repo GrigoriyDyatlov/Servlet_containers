@@ -1,10 +1,7 @@
 package ru.netology.servlet;
 
-import org.springframework.beans.factory.support.DefaultListableBeanFactory;
-import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import ru.netology.controller.PostController;
-import ru.netology.service.PostService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -18,17 +15,9 @@ public class MainServlet extends HttpServlet {
 
     @Override
     public void init() {
-        final var factory = new DefaultListableBeanFactory();
-        final var reader = new XmlBeanDefinitionReader(factory);
-        reader.loadBeanDefinitions("beans.xml");
-        // получаем по имени бина
-        final var controller = factory.getBean("postController");
+        final var context = new AnnotationConfigApplicationContext("ru.netology");
+        controller = context.getBean(PostController.class);
 
-        // получаем по классу бина
-        final var service = factory.getBean(PostService.class);
-
-        // по умолчанию создаётся лишь один объект на BeanDefinition
-        final var isSame = service == factory.getBean("postService");
     }
 
     @Override
