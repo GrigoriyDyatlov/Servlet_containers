@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class MainServlet extends HttpServlet {
+    protected final String postsPath = "/api/posts";
     private PostController controller;
 
     @Override
@@ -23,9 +24,9 @@ public class MainServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         final var path = req.getRequestURI();
-        if (path.equals("/api/posts")) {
+        if (path.equals(postsPath)) {
             controller.all(resp);
-        } else if (path.matches("/api/posts/\\d+")) {
+        } else if (path.matches(postsPath + "/\\d+")) {
             // easy way
             final var id = Long.parseLong(path.substring(path.lastIndexOf("/")));
             controller.getById(id, resp);
@@ -35,7 +36,7 @@ public class MainServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         final var path = req.getRequestURI();
-        if (path.equals("/api/posts")) {
+        if (path.equals(postsPath)) {
             controller.save(req.getReader(), resp);
         }
     }
@@ -43,7 +44,7 @@ public class MainServlet extends HttpServlet {
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         final var path = req.getRequestURI();
-        if (path.matches("/api/posts/\\d+")) {
+        if (path.matches(postsPath + "/\\d+")) {
             // easy way
             final var id = Long.parseLong(path.substring(path.lastIndexOf("/")));
             controller.removeById(id, resp);
