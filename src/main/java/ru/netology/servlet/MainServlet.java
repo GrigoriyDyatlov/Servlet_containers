@@ -18,14 +18,8 @@ public class MainServlet extends HttpServlet {
     @Override
     public void init() {
         final var context = new AnnotationConfigApplicationContext(JavaConfig.class);
-        // получаем по имени бина
-        final var controller = context.getBean("postController");
 
-        // получаем по классу бина
-        final var service = context.getBean(PostService.class);
-
-        // по умолчанию создаётся лишь один объект на BeanDefinition
-        final var isSame = service == context.getBean("postService");
+        controller = context.getBean(PostController.class);
     }
 
     @Override
